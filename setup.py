@@ -9,7 +9,7 @@ setup(
     name='yopy',
     description="Zero characters communication for humans.",
     long_description=read('README.rst'),
-    version='1.0',
+    version='1.0.1',
     py_modules=['yopy'],
     author='Steven Loria',
     author_email='sloria1@gmail.com',

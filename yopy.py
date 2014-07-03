@@ -19,7 +19,7 @@ class YoError(Exception):
 class ErrorResponse(Exception):
     def __init__(self, message=None, status_code=None):
         self.status_code = status_code
-        Exception.__init__(self, message=message or'An error occurred with the Yo API.')
+        Exception.__init__(self, message or 'An error occurred with the Yo API.')
 
 
 class Yo(object):
