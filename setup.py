@@ -9,7 +9,7 @@ setup(
     name='yopy',
     description="Zero characters communication for humans.",
     long_description=read('README.rst'),
-    version='1.0.1',
+    version='1.0.2',
     py_modules=['yopy'],
     author='Steven Loria',
     author_email='sloria1@gmail.com',
@@ -18,6 +18,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'requests',
+        'awesome-slugify',
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',

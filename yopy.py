@@ -3,12 +3,9 @@
 """
 from __future__ import print_function
 import sys
-if sys.version_info[0] > 2:
-    from urllib.parse import quote as urlquote
-else:
-    from urllib import quote as urlquote
 
 import requests
+from slugify import slugify
 
 YO_ALL_URL = 'http://api.justyo.co/yoall/”'
 YO_SEND_URL = 'http://yofor.me'
@@ -21,6 +18,8 @@ class ErrorResponse(Exception):
         self.status_code = status_code
         Exception.__init__(self, message or 'An error occurred with the Yo API.')
 
+def format_as_yo_username(s):
+    return slugify(s.strip().upper(), separator='_')
 
 class Yo(object):
 
@@ -47,8 +46,12 @@ class Yo(object):
         fr = from_ or self.user
         if not fr:
             raise YoError('Sender not specified.')
+        to_formatted = format_as_yo_username(to)
+        fr_formatted = format_as_yo_username(fr.strip())
         url = '{base}/{to}/{fr}'.format(
-            base=YO_SEND_URL, to=to.strip(), fr=urlquote(fr.strip())
+            base=YO_SEND_URL,
+            to=to_formatted,
+            fr=fr_formatted
         )
         resp = self._session.post(url)
         if resp.status_code >= 400:
@@ -64,7 +67,7 @@ def main():
         print('...')
         Yo().yo(to, from_)
     except ErrorResponse as err:
-        print('ERROR: {}'.format(err.message), file=sys.stderr)
+        print('ERROR {}: {}'.format(err.status_code, err), file=sys.stderr)
         sys.exit(1)
     print("Yo'd.")
     sys.exit(0)
